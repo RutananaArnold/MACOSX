@@ -1,0 +1,5 @@
+*** Rename all images to appear on the website (including images)
+
+- Shipping Details
+- Printing Invoice (By Customer)
+- Integrate Payments (COD & Mobile Money)
