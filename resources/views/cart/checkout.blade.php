@@ -143,26 +143,36 @@
                                                                 <script src="https://checkout.flutterwave.com/v3.js"></script>
                                                                 <form>
                                                                 <div>
+                                                                    <!-- var amount = $("#idOfDiv").val(); -->
+                                                                    
                                                                     Your order is UGX {{ \Cart::getTotal() }}
                                                                 </div>
                                                                 <button type="button" id="start-payment-button" onclick="makePayment()" class="btn btn-primary wide next">Pay Now</button>
                                                                 </form>
                                                                         <script>
+                                                                        // let value3 = substr(rand(0,time()),0,7);    
                                                                         let value3 = Math.floor(Math.random() * 1000);
                                                                         console.log(value3);
                                                                         console.log(document.getElementById("phone").value, document.getElementById("email").value, document.getElementById("name").value);
                                                                         function makePayment() {
                                                                             FlutterwaveCheckout({
                                                                             public_key: "FLWPUBK_TEST-SANDBOXDEMOKEY-X",
-                                                                            tx_ref: "titanic-48981487343MDI0NzMx",
+                                                                            tx_ref: "RX1_{{substr(rand(0,time()),0,7)}}",
                                                                             amount: 100,
                                                                             currency: "UGX",
                                                                             payment_options: "card, banktransfer, ussd",
-                                                                            redirect_url: "https://beisie.com/cart/checkout",
-                                                                            meta: {
-                                                                                consumer_id: value3,
-                                                                                consumer_mac: "92a3-912ba-1192a",
+                                                                            // redirect_url: "https://beisie.com/cart/checkout/#payment-method",
+                                                                            // meta: {
+                                                                            //     consumer_id: value3,
+                                                                            //     consumer_mac: "92a3-912ba-1192a",
+                                                                            // },
+                                                                            callback: function (data) {
+                                                                                var transaction_id = data.transaction_id;
+                                                                                console.log(transaction_id);
                                                                             },
+                                                                            onclose: function(){
+
+                                                                            }
                                                                             customer: {
                                                                                 email: document.getElementById("email").value,
                                                                                 phone_number: document.getElementById("phone").value,
