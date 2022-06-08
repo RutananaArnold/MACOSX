@@ -48,7 +48,7 @@
                                                             <br/> <h5><small> (@lang('header.remember_this_info')) </small></h5>
                                                         </h5>
                                                     </div>
-                                                    <div class="row">
+                                                    <div class="row mt-4" >
                                                         <div class="form-group mb-0">
                                                             @csrf 
                                                             <input type="hidden" name="status" class="form-control" id="status" value="being processed">
@@ -80,17 +80,35 @@
                                                             <input id="district" type="text" name="district" value="{{Auth::user()->district}}" placeholder="@lang('header.district')" class="form-control" required>
                                                         </div>
                                                     </div>
+
+                                                  
                                                     <!-- /Invoice Address-->
-                                                    <div class="CTAs d-flex justify-content-between flex-column flex-lg-row">
+                                                    <!-- <div class="CTAs d-flex justify-content-between flex-column flex-lg-row">
                                                         <ul role="tablist" class="nav nav-pills">
                                                             <a data-toggle="tab" role="tab" href="#delivery-method" class="btn btn-primary wide next">
                                                                 @lang('header.choose_delivery') <i class="fa fa-long-arrow-right"></i>
                                                             </a>
                                                         </ul>
+                                                    </div> -->
+                                                </div>
+                                     </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="block">
+                                                <div class="block-header">
+                                                    <h6 class="text-uppercase text-primary"><strong> @lang('header.order_statement') </strong></h6>
+                                                </div>
+                                                <div class="block-body">
+                                                    <p> @lang('header.order_statement_note') </p>
+                                                    <div class="form-group">
+                                                        <textarea rows="7" name="note" id="note" placeholder="Write to us here" class="form-control"></textarea>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                                <div id="delivery-method" role="tabpanel" class="tab-pane">
+                                               <div id="delivery-method" role="tabpanel" class="tab-pane mt-5">
                                                     <div class="row">
                                                         <div class="form-group col-md-12">
                                                             <input type="radio" name="delivery" id="option1" value="Pickup Station" class="radio-template" checked>
@@ -101,16 +119,16 @@
                                                             <label for="option2"><strong> @lang('header.home_delivery') </strong><br><span class="label-description"> @lang('header.home_delivery_note'). </span></label>
                                                         </div>
                                                     </div>
-                                                    <div class="CTAs d-flex justify-content-between flex-column flex-lg-row">
+                                                    <!-- <div class="CTAs d-flex justify-content-between flex-column flex-lg-row">
                                                         <ul role="tablist" class="nav nav-pills">
                                                             <a data-toggle="tab" role="tab" href="#payment-method" class="btn btn-primary wide next">
                                                                 @lang('header.choose_payment') <i class="fa fa-long-arrow-right"></i>
                                                             </a>
                                                         </ul>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
 
-                                                <div id="payment-method" role="tabpanel" class="tab-pane">
+                                                <div id="payment-method" role="tabpanel" class="tab-pane mt-5">
                                                     <div class="accordion box-shadow-sm mb-4" id="payment-methods">
                                                         <!-- COD -->
                                                         <div class="card">
@@ -161,40 +179,32 @@
                                                                             amount: 100,
                                                                             currency: "UGX",
                                                                             payment_options: "card, banktransfer, ussd",
-                                                                            // redirect_url: "https://beisie.com/cart/checkout/#payment-method",
+                                                                            redirect_url: "https://beisie.com/cart/checkout/#payment-method",
                                                                             // meta: {
                                                                             //     consumer_id: value3,
                                                                             //     consumer_mac: "92a3-912ba-1192a",
                                                                             // },
-                                                                            callback: function (data) {
-                                                                                var transaction_id = data.transaction_id;
-                                                                                console.log(transaction_id);
-                                                                            },
-                                                                            onclose: function(){
+                                                                            // callback: function (data) {
+                                                                            //     var transaction_id = data.transaction_id;
+                                                                            //     console.log(transaction_id);
+                                                                            // },
+                                                                            // onclose: function(){
 
-                                                                            }
+                                                                            // }
                                                                             customer: {
                                                                                 email: document.getElementById("email").value,
                                                                                 phone_number: document.getElementById("phone").value,
                                                                                 name: document.getElementById("name").value,
                                                                             },
                                                                             customizations: {
-                                                                                title: "The Titanic Store",
+                                                                                title: "Beisie",
                                                                                 description: "Payment for an awesome checkout",
                                                                                 logo: "https://www.logolynx.com/images/logolynx/22/2239ca38f5505fbfce7e55bbc0604386.jpeg",
                                                                             },
                                                                             });
                                                                         }
                                                                         </script>
-                                                                    <!-- <ol><h6 class="text-primary text-bold" style="text-decoration:underline;"> @lang('header.simplified') </h6>
-                                                                        <li> @lang('header.if_using') 
-                                                                            <a href="tel:*165*1*1*0775639867*100000*5377----#" rel="noopener" class="text-bold"> @lang('header.click_to_pay').</a>  </li>
-                                                                        <li> @lang('header.confirmation_prompt') </li>
-                                                                        <li> @lang('header.upon_payment') </li>
-                                                                        <small> <strong>@lang('header.note'):</strong> 
-                                                                            @lang('header.for_pc').
-                                                                        </small> 
-                                                                    </ol> -->
+                                                                   
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -208,23 +218,6 @@
                                                         </ul>
                                                     </div>
                                                 </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="block">
-                                                <div class="block-header">
-                                                    <h6 class="text-uppercase text-primary"><strong> @lang('header.order_statement') </strong></h6>
-                                                </div>
-                                                <div class="block-body">
-                                                    <p> @lang('header.order_statement_note') </p>
-                                                    <div class="form-group">
-                                                        <textarea rows="7" name="note" id="note" placeholder="Write to us here" class="form-control"></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
 
                                 </form>
 
