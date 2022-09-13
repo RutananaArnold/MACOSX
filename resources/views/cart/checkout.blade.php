@@ -10,7 +10,7 @@
                 @if(Auth::check())
                     <!-- navbar-->
                     @include('layouts.navbar')
-                    
+
                         <!-- Hero Section-->
                         <section class="hero hero-page gray-bg padding-small mb-4">
                             <div class="container">
@@ -37,20 +37,20 @@
 
                                 <form action="{{route('orders.store')}}" method="post">
                                     {{ csrf_field() }}
-                                    
+
                                     <div class="row">
                                         <div class="col-lg-8">
                                             <div class="tab-content">
                                                 <div id="address" role="tabpanel" class="active tab-pane">
                                                     <!-- Invoice Address-->
                                                     <div class="block-header mb-4">
-                                                        <h5 class="text-primary text-bold"> @lang('header.current_invoice_address') 
+                                                        <h5 class="text-primary text-bold"> @lang('header.current_invoice_address')
                                                             <br/> <h5><small> (@lang('header.remember_this_info')) </small></h5>
                                                         </h5>
                                                     </div>
                                                     <div class="row mt-4" >
                                                         <div class="form-group mb-0">
-                                                            @csrf 
+                                                            @csrf
                                                             <input type="hidden" name="status" class="form-control" id="status" value="being processed">
                                                             <input type="hidden" name="order_id" class="form-control" id="order_id"/>
                                                             <input type="hidden" name="total" class="form-control" id="total"/>
@@ -81,7 +81,7 @@
                                                         </div>
                                                     </div>
 
-                                                  
+
                                                     <!-- /Invoice Address-->
                                                     <!-- <div class="CTAs d-flex justify-content-between flex-column flex-lg-row">
                                                         <ul role="tablist" class="nav nav-pills">
@@ -128,13 +128,34 @@
                                                     </div> -->
                                                 </div>
 
+                                                <script>
+                                                        function disable() {
+                                                            document.getElementById("confirmOrder").disabled = true;
+                                                        }
+                                                        function undisable() {
+                                                          document.getElementById("confirmOrder").disabled = false;
+                                                        }
+                                                        function show(){
+                                                            if(document.getElementById('pay_method-2').checked){
+                                                                document.getElementById("confirmOrder").disabled = false;
+                                                            } else if(document.getElementById('pay_method-1').checked){
+                                                                document.getElementById("confirmOrder").disabled = true;
+                                                            } else if(document.getElementById('start-payment-button').onclick){
+                                                                alert("Initialing your payment page");
+                                                                document.getElementById("confirmOrder").disabled = false;
+                                                            } else{
+                                                                disable();
+                                                            }
+                                                        }
+                                                </script>
+
                                                 <div id="payment-method" role="tabpanel" class="tab-pane mt-5">
                                                     <div class="accordion box-shadow-sm mb-4" id="payment-methods">
-                                                        <!-- COD -->
+                                                        <!-- CashOnDelivery -->
                                                         <div class="card">
                                                             <div class="card-header py-3 px-3">
                                                                 <div class="custom-control custom-radio">
-                                                                <input class="custom-control-input" type="radio" name="pay_method" value="Cash On Delivery" id="pay_method-2" checked>
+                                                                <input class="custom-control-input" type="radio" name="pay_method" value="Cash On Delivery" id="pay_method-2" onclick="show()" >
                                                                 <label class="custom-control-label font-weight-medium text-dark" for="pay_method-2" data-toggle="collapse" data-target="#pay_method-2">
                                                                     @lang('header.cod') <img src="{{ asset('images/payments/cash.png') }}" alt="" class="font-size-base align-middle mt-n1 ml-2">
                                                                 </label>
@@ -150,7 +171,7 @@
                                                         <div class="card">
                                                             <div class="card-header py-3 px-3">
                                                                 <div class="custom-control custom-radio">
-                                                                <input class="custom-control-input" type="radio" name="pay_method" value="MTN Momo Pay" id="pay_method-1">
+                                                                <input class="custom-control-input" type="radio" name="pay_method" onclick="show()" value="Cashless" id="pay_method-1" >
                                                                 <label class="custom-control-label font-weight-medium text-dark" for="pay_method-1" data-toggle="collapse" data-target="#pay_method-1">
                                                                     CASHLESS <img src="{{ asset('images/payments/payment.png') }}" height="30" width="50" alt="" class="font-size-base align-middle mt-n1 ml-2">
                                                                 </label>
@@ -162,13 +183,13 @@
                                                                 <form>
                                                                 <div>
                                                                     <!-- var amount = $("#idOfDiv").val(); -->
-                                                                    
+
                                                                     Your order is UGX {{ \Cart::getTotal() }}
                                                                 </div>
                                                                 <button type="button" id="start-payment-button" onclick="makePayment()" class="btn btn-primary wide next">Pay Now</button>
                                                                 </form>
                                                                         <script>
-                                                                        // let value3 = substr(rand(0,time()),0,7);    
+                                                                        // let value3 = substr(rand(0,time()),0,7);
                                                                         let value3 = Math.floor(Math.random() * 1000);
                                                                         console.log(value3);
                                                                         console.log(document.getElementById("phone").value, document.getElementById("email").value, document.getElementById("name").value);
@@ -176,7 +197,7 @@
                                                                             FlutterwaveCheckout({
                                                                             public_key: "FLWPUBK_TEST-SANDBOXDEMOKEY-X",
                                                                             tx_ref: "RX1_{{substr(rand(0,time()),0,7)}}",
-                                                                            amount: 100,
+                                                                            amount: "{{ \Cart::getTotal() }}",
                                                                             currency: "UGX",
                                                                             payment_options: "card, banktransfer, ussd",
                                                                             redirect_url: "https://beisie.com/cart/checkout/#payment-method",
@@ -204,7 +225,7 @@
                                                                             });
                                                                         }
                                                                         </script>
-                                                                   
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -212,7 +233,7 @@
 
                                                     <div class="CTAs d-flex justify-content-between flex-column flex-lg-row">
                                                         <ul role="tablist" class="nav nav-pills">
-                                                            <button type="submit" class="btn btn-primary wide next">
+                                                            <button id="confirmOrder" onclick="show()" type="submit" class="btn btn-primary wide next">
                                                                 @lang('header.confirm_order') <i class="fa fa-long-arrow-right"></i>
                                                             </button>
                                                         </ul>
@@ -225,7 +246,7 @@
                         </section>
 
                     @else
-                    
+
                         <section class="padding-small">
                             <div class="container">
                             <div class="row">
