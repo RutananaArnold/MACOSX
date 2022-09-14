@@ -129,12 +129,6 @@
                                                 </div>
 
                                                 <script>
-                                                        function disable() {
-                                                            document.getElementById("confirmOrder").disabled = true;
-                                                        }
-                                                        function undisable() {
-                                                          document.getElementById("confirmOrder").disabled = false;
-                                                        }
                                                         function show(){
                                                             if(document.getElementById('pay_method-2').checked){
                                                                 document.getElementById("confirmOrder").disabled = false;
@@ -144,7 +138,7 @@
                                                                 alert("Initialing your payment page");
                                                                 document.getElementById("confirmOrder").disabled = false;
                                                             } else{
-                                                                disable();
+                                                                document.getElementById("confirmOrder").disabled = true;
                                                             }
                                                         }
                                                 </script>
@@ -195,16 +189,30 @@
                                                                         console.log(document.getElementById("phone").value, document.getElementById("email").value, document.getElementById("name").value);
                                                                         function makePayment() {
                                                                             FlutterwaveCheckout({
-                                                                            public_key: "FLWPUBK_TEST-SANDBOXDEMOKEY-X",
+                                                                            public_key: "FLWPUBK-9b0dddacfc417509381f80c0a9175bf5-X",
                                                                             tx_ref: "RX1_{{substr(rand(0,time()),0,7)}}",
                                                                             amount: "{{ \Cart::getTotal() }}",
                                                                             currency: "UGX",
                                                                             payment_options: "card, banktransfer, ussd",
-                                                                            redirect_url: "https://beisie.com/cart/checkout/#payment-method",
+                                                                            // redirect_url: "https://beisie.com/cart/checkout/#payment-method",
                                                                             // meta: {
                                                                             //     consumer_id: value3,
                                                                             //     consumer_mac: "92a3-912ba-1192a",
                                                                             // },
+                                                                            callback: function (data) {
+                                                                            console.log(data);
+                                                                            const reference = data.tx_ref;
+
+                                                                            if(data.tx.chargeResponse =='00' || data.tx.chargeResponse == '0') {
+                                                                                    // redirect to a orders page
+                                                                                  {{route('orders.store')}};
+
+                                                                                     alert("payment was successfully completed" + reference);
+                                                                                }
+                                                                                // else {
+                                                                                    // redirect to a failure page.
+                                                                                // }
+                                                                            },
                                                                             // callback: function (data) {
                                                                             //     var transaction_id = data.transaction_id;
                                                                             //     console.log(transaction_id);
@@ -220,7 +228,7 @@
                                                                             customizations: {
                                                                                 title: "Beisie",
                                                                                 description: "Payment for an awesome checkout",
-                                                                                logo: "https://www.logolynx.com/images/logolynx/22/2239ca38f5505fbfce7e55bbc0604386.jpeg",
+                                                                                logo: "https://beisie.com/images/_logo.jpg",
                                                                             },
                                                                             });
                                                                         }
