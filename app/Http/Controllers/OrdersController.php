@@ -50,7 +50,7 @@ class OrdersController extends Controller
             $order = new Order();
 
             $order->order_id = "#5377$ordersCount";
-            $order->status = $request -> input('status'); 
+            $order->status = $request -> input('status');
             $order->note = $request -> input('note');
             $order->name = $request -> input('name');
             $order->email = $request -> input('email');
@@ -60,6 +60,7 @@ class OrdersController extends Controller
             $order->district = $request -> input('district');
             $order->delivery = $request -> input('delivery');
             $order->pay_method = $request -> input('pay_method');
+            $order->transactionRef = $request -> input('transactionRef');
             $order->user_id = Auth::user()->id;
 
             $order->qty = \Cart::session($userId)->getTotalQuantity();
@@ -67,7 +68,7 @@ class OrdersController extends Controller
             $order->total = \Cart::session($userId)->getTotal();
 
             $order->save();
-            
+
                 if($order){
                     //save ordered items
                     $cartItems = \Cart::session($userId)->getContent();
@@ -78,10 +79,10 @@ class OrdersController extends Controller
                     \Cart::session($userId)->clear();
 
                     //then finish and return order details
-                    return redirect()->route('orders.show', ['order' => $order -> id]) 
+                    return redirect()->route('orders.show', ['order' => $order -> id])
                     -> with('success', 'Your order has been well placed! Thank you!');
                 }
-            
+
         }
         return back()->withInput()->with('errors', 'Sorry! Your order couldn\'t be placed!');
     }

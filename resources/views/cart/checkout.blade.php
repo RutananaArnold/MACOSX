@@ -141,6 +141,10 @@
                                                                 document.getElementById("confirmOrder").disabled = true;
                                                             }
                                                         }
+
+                                                        function pickTxn(txn){
+                                                        document.getElementById("transactionRef").value = txn;
+                                                        }
                                                 </script>
 
                                                 <div id="payment-method" role="tabpanel" class="tab-pane mt-5">
@@ -176,8 +180,6 @@
                                                                 <script src="https://checkout.flutterwave.com/v3.js"></script>
                                                                 <form>
                                                                 <div>
-                                                                    <!-- var amount = $("#idOfDiv").val(); -->
-
                                                                     Your order is UGX {{ \Cart::getTotal() }}
                                                                 </div>
                                                                 <button type="button" id="start-payment-button" onclick="makePayment()" class="btn btn-primary wide next">Pay Now</button>
@@ -194,20 +196,19 @@
                                                                             amount: "{{ \Cart::getTotal() }}",
                                                                             currency: "UGX",
                                                                             payment_options: "card, banktransfer, ussd",
-                                                                            // redirect_url: "https://beisie.com/cart/checkout/#payment-method",
+                                                                            redirect_url: "https://beisie.com/cart/checkout/#payment-method",
                                                                             // meta: {
                                                                             //     consumer_id: value3,
                                                                             //     consumer_mac: "92a3-912ba-1192a",
                                                                             // },
                                                                             callback: function (data) {
                                                                             console.log(data);
-                                                                            const reference = data.tx_ref;
-
+                                                                            const reference = data.transaction_id;
                                                                             if(data.tx.chargeResponse =='00' || data.tx.chargeResponse == '0') {
-                                                                                    // redirect to a orders page
-                                                                                  {{route('orders.store')}};
-
-                                                                                     alert("payment was successfully completed" + reference);
+                                                                                    // redirect to checkout page and enable the
+                                                                                pickTxn(reference);
+                                                                                alert("payment was successfully completed" + reference);
+                                                                                document.getElementById("start-payment-button").disabled = true;
                                                                                 }
                                                                                 // else {
                                                                                     // redirect to a failure page.
@@ -238,6 +239,9 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                             <input id="txntag"  name="transactionRef" value=" " hidden/>
+
 
                                                     <div class="CTAs d-flex justify-content-between flex-column flex-lg-row">
                                                         <ul role="tablist" class="nav nav-pills">

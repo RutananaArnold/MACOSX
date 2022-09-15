@@ -32,6 +32,7 @@ class CreateOrdersTable extends Migration
             $table->string('district')->nullable();
             $table->string('delivery')->nullable();
             $table->string('pay_method')->nullable();
+            $table->string('transactionRef')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -17,8 +17,8 @@ class Order extends Model
      * @var array
      */
     protected $fillable = [
-        'qty', 'price', 'total', 'note', 'user_id', 'order_id', 
-        'name', 'email', 'phone', 'street', 'town', 'district', 'delivery', 'pay_method',
+        'qty', 'price', 'total', 'note', 'user_id', 'order_id',
+        'name', 'email', 'phone', 'street', 'town', 'district', 'delivery', 'pay_method', 'transactionRef',
     ];
 
     /**
